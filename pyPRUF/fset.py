@@ -18,7 +18,6 @@ from pandas.core.indexers.objects import BaseIndexer
 from pandas.core.resample import Resampler
 from pandas.core.window import Rolling, Window, Expanding, ExponentialMovingWindow
 
-
 from pyPRUF.config import fuzzy_sets_parameters
 from pyPRUF.utils import is_list_not_unique, is_out_of_range, is_list_out_of_range
 
