@@ -68,3 +68,13 @@ for v_ref, v_measured in zip(v_ref_arr, v_measured_arr):
     print(f"measured vel: {v_measured}\ntarget: {v_ref}\nerror: {e_curr:.2f}\nde: {de:.2f}\ncontrol res: {control_res:.2f}\n")
 
     e_prev = e_curr
+
+
+temperature_f_set = FSet({
+    "medium": 0.5,
+    "warm": 0.8,
+    "hot": 0.9,
+    "boiling": 1
+})
+
+print(temperature_f_set)

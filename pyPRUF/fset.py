@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import builtins
 import datetime
 from numbers import Number
@@ -20,37 +22,6 @@ from pandas.core.window import Rolling, Window, Expanding, ExponentialMovingWind
 
 from pyPRUF.config import fuzzy_sets_parameters
 from pyPRUF.utils import is_list_not_unique, is_out_of_range, is_list_out_of_range
-
-
-def apply_binary_func(
-        set_a: FSet = None,
-        set_b: FSet = None,
-        func: Callable = None
-) -> FSet:
-    """
-    Apply a binary function to the elements of two fuzzy creating a new one based off the result
-
-    Parameters
-    ----------
-
-    set_a: FSet
-        First FSet
-    set_b: FSet
-        Second FSet
-    func: Callable
-        Callable that will produce the result of every couple of set_a and set_b merge
-
-    Returns
-    -------
-    FSet
-        FSet containing the elements of func using the values in set_a and set_b
-    """
-    df = pd.DataFrame({ "col_1": set_a, "col_2": set_b}).fillna({
-        "col_1": set_a.default_value,
-        "col_2": set_b.default_value,
-    })
-
-    return FSet(df.apply(lambda row: func(row["col_1"], row["col_2"]), axis=1), default_value=func(set_a.default_value, set_b.default_value))
 
 
 class FSet(Series):
@@ -148,7 +119,7 @@ class FSet(Series):
             if is_list_not_unique(mu.index.array):
                 raise Exception("Index must contain unique values")
             index_list = mu.index.array
-        elif isinstance(mu, bool):
+        elif isinstance(mu, bool) and index is None:
             index_list = []
         elif isinstance(index, (list, np.ndarray)) and is_list_not_unique(index):
             raise ValueError("Index must contain unique values")
@@ -169,7 +140,7 @@ class FSet(Series):
         elif isinstance(mu, (list, np.ndarray)):
             data_list = mu
         elif isinstance(mu, bool):
-            data_list = []
+            data_list = list(int(mu) for _ in index_list)
 
         if is_list_out_of_range(data_list, 0, 1):
             raise ValueError("All mu values must be between 0 and 1")
@@ -934,3 +905,34 @@ class FuzzyIndexer:
             raise ValueError("Value must be between 0 and 1")
 
         self._base[key] = value
+
+
+def apply_binary_func(
+    set_a: FSet = None,
+    set_b: FSet = None,
+    func: Callable = None
+) -> FSet:
+    """
+    Apply a binary function to the elements of two fuzzy creating a new one based off the result
+
+    Parameters
+    ----------
+
+    set_a: FSet
+        First FSet
+    set_b: FSet
+        Second FSet
+    func: Callable
+        Callable that will produce the result of every couple of set_a and set_b merge
+
+    Returns
+    -------
+    FSet
+        FSet containing the elements of func using the values in set_a and set_b
+    """
+    df = pd.DataFrame({ "col_1": set_a, "col_2": set_b}).fillna({
+        "col_1": set_a.default_value,
+        "col_2": set_b.default_value,
+    })
+
+    return FSet(df.apply(lambda row: func(row["col_1"], row["col_2"]), axis=1), default_value=func(set_a.default_value, set_b.default_value))

@@ -23,7 +23,7 @@ class TestFSet(unittest.TestCase):
             FSet(mu={ 10: 0.2, 11: 10, 12: 0.1})
 
     def test_constructor_bool(self):
-        f_set_a = FSet(mu=True)
+        f_set_a = FSet(mu=True, index=[10, 20])
         f_set_b = FSet(mu=False)
 
         self.assertEqual(f_set_a.default_value, 1)
