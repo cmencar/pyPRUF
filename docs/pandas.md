@@ -1,45 +1,63 @@
-# Fuzzy extension of Pandas Library
+# Fuzzy Extension of the Pandas Library
 
-Using the tools offered by pandas library we created a new library that manages fuzzy sets with old operators.
+This project extends the capabilities of the **pandas** library to support fuzzy set operations. The objective is to provide tools for representing and working with:
 
-In particular the goal of this library is to create a representation of
-+ Fuzzy sets
-+ Fuzzy series
-+ Fuzzy relation
+- Fuzzy Sets
+- Fuzzy Series *(planned)*
+- Fuzzy Relations *(planned)*
 
-Currently, only fuzzy sets are implemented but in the future iterations there will be more features.
+Currently, only fuzzy sets are implemented. Future iterations will introduce additional features and support for fuzzy series and relations.
 
 ---
 
-# FSet
+## `FSet` Fuzzy Set Representation
 
-The class used to represents fuzzy set is called FSet, it's an extension to the Pandas' Series class.
-Using Series's data representation we created a container that will keep track of a fuzzy set's elements and their
-membership degree.
+The core class used to represent fuzzy sets is called `FSet`. It is a subclass of `pandas.Series`, adapted to behave according to fuzzy set theory.
 
-Pandas' Series we can store elements by using an index and a value.
-Users can store multiple data with the same value and can store different kind of values.
+By leveraging the structure of `Series`, `FSet` stores each fuzzy set element and its corresponding membership degree.
 
-In the FSet class we limited the Series operators to replicate the behavior and the operators of fuzzy set.
+In a standard `Series`, data is stored as `(index, value)` pairs. In our case:
 
-## Store fuzzy set using FSet
+- **Index**: the element of the set
+- **Value**: the degree of membership μ(x), where μ: X → [0, 1]
 
-To represent a fuzzy set we must create a function $\mu$:
-$$\mu : X \rightarrow [0, 1] $$
-To do that, we store the function using the Series representation by having:
+---
+
+## `FSet` Defining a Fuzzy Set
+
+To define a fuzzy set, we use a membership function:
+
+$$ \mu : X \rightarrow [0, 1]$$
+
+
+This is stored as a collection of pairs:
 $$(x, \mu(x))$$
-as the element of our set. To do that we will store elements in the index and after that connect
-every ef them to a membership degree.
 
-To do that we impose some limitation on the indexes and the values:
-+ In an FSet the indexes are unique. This ensures the existence of unique elements inside the fuzzy set.
-+ Only float number between [0, 1] will be accepted as values
+In `FSet`, this corresponds to storing `x` as the index and `μ(x)` as the associated value.
 
-To map other elements outside the current scope we can set a default value for every other element not 
-currently defined in the fuzzy set.
+---
+
+## `FSet` Constraint
+
+To ensure consistency with fuzzy set theory, the following constraints are enforced:
+
+- **Unique indexes**: Each element in the index list in the fuzzy set must be unique.
+- **Valid values**: All values must be floating-point numbers in the interval [0, 1].
+
+These constraints ensure that the fuzzy set behaves as expected mathematically.
+
+---
+
+## `FSet` Default value
+
+For elements not explicitly defined in the fuzzy set, a **default membership value** can be specified. This allows the fuzzy set to implicitly define membership degrees for elements outside the current index.
 
 --- 
-For example, we want to store a fuzzy set that represent the concept of a hot thing:
+
+## `FSet` Example: Concept of 'hot'
+
+For example, suppose we want to define a fuzzy set that represents the concept of something being hot. In this case, we can define
+a fuzzy set that assigns a degree of "hotness" to different words using out FSet class:
 ```python
 temperature_f_set = FSet({
     "medium": 0.5,
@@ -48,9 +66,9 @@ temperature_f_set = FSet({
     "boiling": 1
 })
 ```
+By defining the elements and their membership degrees, we create a fuzzy set.
+Elements that are not explicitly defined will have a membership degree of 0 (the default value).
 
-By defining the elements and their membership degrees we created a fuzzy set; the elements that are not defined will 
-have the membership degree of 0.
 ```textwrap
 medium     0.5
 warm       0.8
@@ -62,30 +80,39 @@ Default value: 0
 
 # Overview
 
-Let's take a look at the main features of the library.
+This section provides an overview of the main features of `FSet` class.
 
-## Creation of fuzzy set
+## Creating a Fuzzy Set
 
-With FSet the user can create a fuzzy set using different ways:
+The `FSet` class allows users to create fuzzy sets in multiple ways, let's take a look of them.
+
 ### List
-You can specify the indexes and the membership degree by using two separate lists. You can use normal python array or
-numpy arrays.
 
-The n-th element of the fuzzy set will have:
-+ the index equals to the n-th element of the indexes list
-+ the membership degree equals to the n-th element of the mu list
+You can create a fuzzy set by providing two separate lists:
+
+- One for the **elements** (used as indices)
+- One for the corresponding **membership degrees**
+
+Both standard Python lists and NumPy arrays are supported.
+
+Each element in the fuzzy set is defined as follows:
+
+- The index of the element is taken from the *n*-th position of the `elements` list.
+- The membership degree is taken from the *n*-th position of the `mu` (membership) list.
+
 
 ```python
 f_set = FSet(mu=[0.2, 0.1], index=[10, 20])
 ```
 
 ### Dict
-You can specify the indexes and the membership degree by using a single dictionary. In this case there is no need to specify 
-the indexes list in fact the keys of the dict will be used as indexes.
+You can create a fuzzy set by providing a dictionary. 
 
-The n-th element of the fuzzy set will have:
-+ the index equals to the n-th key of the dictionary
-+ the membership degree equals to the value associated to the n-th key
+In this case there is no need to specify the indexes as they're represented by the keys in the dictionary.
+
+Each element in the fuzzy set is defined as follows:
+- The index of the element is taken from the *n*-th key of the dictionary.
++ the membership degree equals to the value associated to the *n*-th key in the dictionary
 
 ```python
 f_set = FSet(
@@ -99,9 +126,12 @@ f_set = FSet(
 
 ### Bool
 
+You can create a fuzzy set by providing a boolean value and an optional list of indexes.
+
 You can set all elements every element specify in the index to 0 or 1 by using passing a bool value.
 + If the user pass True every element will have a membership degree of 1
 + If the user pass False every element will have a membership degree of 0
+This also effects the default value.
 
 ```python
 f_set_a = FSet(mu=True, index=[10, 20])
@@ -110,12 +140,16 @@ f_set_b = FSet(mu=False)
 
 ### Function
 
-You can set generate the elements of the fuzzy set by using a function that accept a single parameter that represent the index of the element.
-To define the elements the user must use an index list.
+You can generate the elements of a fuzzy set by providing a function that accepts a single parameter representing the index of each element.
 
-The n-th element of the fuzzy set will have:
-+ the index equals to the n-th value of the index list of the dictionary
-+ the membership degree equals to f(x) where x is the n-th element
+To define the fuzzy set in this way, you must also provide a list of indexes over which the function will be applied.
+
+For each element in the fuzzy set:
+
+- The index is taken from the *n*-th value of the provided index list.
+- The membership degree is computed as `f(x)`, where `x` is the corresponding index.
+
+This approach is useful when the membership degrees follow a mathematical or logical pattern.
 
 ```python
 f_set_a = FSet(mu= lambda x: trapf(x, 1, 4, 5, 8), index=[1, 2.5, 4.5])
@@ -125,14 +159,19 @@ f_set_d = FSet(mu= lambda x: bell(x, 1, 4), index=[1, 5, 2, 10])
 ```
 
 In the library there are already some function to generate fuzzy sets such has:
-+ ``trapf``- creates a trapezoidal fuzzy set
-+ ``trimf``- creates a triangular fuzzy set
-+ ``gauss``- creates a gaussian fuzzy set
-+ ``bell``- creates a bell shaped fuzzy set
+
+| Function | Description                    |  
+|----------|--------------------------------|
+| `trapf`  | Generates a trapezoidal fuzzy set |
+| `trimf`  | Generates a triangular fuzzy set  |
+| `gauss`  | Generates a Gaussian fuzzy set    |
+| `bell`   | Generates a bell-shaped fuzzy set |    
 
 ### Series
-The user can create a fuzzy set by using a pre-created Series to create a fuzzy set. To do that we must ensure that the indexes are uniques
-and that the values are between [0, 1].
+
+You can generate the elements of a fuzzy set by providing a `Series` object.
+
+In order to do so you must ensure that the indexes are uniques and that all the values are between [0, 1].
 
 ```python
 series = pd.Series([0.2, 0.3], index=[10, 20])
@@ -141,7 +180,7 @@ f_set_b = FSet(mu=series)
 
 ## Operators
 
-Let's see the operators that can be done on fuzzy sets.
+This section provides an overview of the main operators of `FSet` class.
 
 ### Union
 
