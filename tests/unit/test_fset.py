@@ -31,9 +31,9 @@ class TestFSet(unittest.TestCase):
 
     def test_constructor_series(self):
         series = pd.Series([0.2, 0.3], index=[10, 20])
-        f_set_b = FSet(mu=series)
+        f_set_a = FSet(mu=series)
 
-        self.assertEqual(f_set_b[10], 0.2)
+        self.assertEqual(f_set_a[10], 0.2)
 
         with self.assertRaises(Exception):
             series_b = pd.Series([0.2, 0.3], index=[10, 10])

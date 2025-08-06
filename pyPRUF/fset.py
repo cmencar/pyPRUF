@@ -101,6 +101,47 @@ class FSet(Series):
             - If the indexes in mu Series are not unique
             - If the index list/np.array contains duplicated elements
             - If the membership values are outside the [0, 1] range
+
+        Examples
+        --------
+
+        >>> FSet(mu=[0.2, 0.1], index=[10, 20])
+        10    0.2
+        20    0.1
+        Name: mu, dtype: float64
+        Default value: 0
+
+        >>> f_set = FSet(
+        ...    mu={
+        ...        10: 0.2,
+        ...        11: 0.5,
+        ...        12: 0.1
+        ...    }
+        >>> )
+        10    0.2
+        11    0.5
+        12    0.1
+        Name: mu, dtype: float64
+        Default value: 0
+
+        >>> f_set = FSet(mu=True, index=[10, 20])
+        10    1
+        20    1
+        Name: mu, dtype: float64
+        Default value: 1
+
+        >>> series = pd.Series([0.2, 0.3], index=[10, 20])
+        >>> f_set_a = FSet(mu=series)
+        10    0.2
+        20    0.3
+        Name: mu, dtype: float64
+        Default value: 0
+
+        >>> f_set = FSet(mu=np.array([0.5, 0.2]), index=np.array([1, 2]))
+        1    0.5
+        2    0.2
+        Name: mu, dtype: float64
+        Default value: 0
         """
 
         if not (0 <= default_value <= 1):
@@ -170,6 +211,14 @@ class FSet(Series):
         ------
         ValueError:
             - If value is outside [0, 1] range
+
+        Examples
+        --------
+
+        >>> f_set = FSet(mu=np.array([0.5, 0.2]), index=np.array([1, 2]))
+        >>> f_set[1] = 0.2
+        0.2
+
         """
         if is_out_of_range(value, 0, 1):
             raise ValueError("Invalid value for an item, the value must be between 0 and 1")
@@ -192,7 +241,8 @@ class FSet(Series):
         """
         Get the intersection of two fuzzy sets using a t_norm, if the t_norm is not specified the min function will be used.
 
-        Parameters----------
+        Parameters
+        ----------
 
         f_set: FSet
             FSet that will be intersected
@@ -208,6 +258,18 @@ class FSet(Series):
         ------
         ValueError:
             - If t_norm is not callable
+
+        Examples
+        --------
+        >>>f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.5)
+        >>>f_set_b = FSet(mu=np.array([0.5, 0.2]), index=np.array([1, 2]), default_value=0.2)
+
+        >>>intersection = f_set_a.intersection(f_set_b)
+        1    0.5
+        2    0.2
+        3    0.2
+        Name: mu, dtype: float64
+        Default value: 0.2
         """
         if t_norm is None:
             t_norm = fuzzy_sets_parameters.t_norm
@@ -244,6 +306,18 @@ class FSet(Series):
         ------
         ValueError:
             - If s_norm is not callable
+
+        Examples
+        --------
+        >>>f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.5)
+        >>>f_set_b = FSet(mu=np.array([0.5, 0.2]), index=np.array([1, 2]), default_value=0.2)
+
+        >>>union = f_set_a.union(f_set_b)
+        1    0.8
+        2    1.0
+        3    1.0
+        Name: mu, dtype: float64
+        Default value: 0.5
         """
         if s_norm is None:
             s_norm = fuzzy_sets_parameters.s_norm
@@ -278,6 +352,17 @@ class FSet(Series):
         ------
         ValueError:
             - If complement is not callable
+
+        Examples
+        --------
+        >>> f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+        >>> complement = f_set_a.complement()
+
+        1    0.2
+        2    0.0
+        3    0.0
+        Name: mu, dtype: float64
+        Default value: 0.8
         """
         if complement is None:
             complement = fuzzy_sets_parameters.complement
@@ -302,6 +387,14 @@ class FSet(Series):
         bool
             True if every x in the fuzzy sets mu(x) <= mu'(x)
             False otherwise
+
+        Examples
+        --------
+        >>> f_set_a = FSet(mu=np.array([0.1, 0.1, 0.1]), index=np.array([1, 2, 3]), default_value=0.1)
+        >>> f_set_b = FSet(mu=np.array([0.2, 0.2, 0.3]), index=np.array([1, 2, 3]), default_value=0.2)
+
+        >>> res = f_set_a.is_included(f_set_b)
+        True
         """
         if f_set is None:
             raise Exception("There must be an f_set")
@@ -329,6 +422,12 @@ class FSet(Series):
         ------
         ValueError:
             - If index is None
+
+        Examples
+        --------
+        >>> f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+        >>> res = f_set_a.mu(1)
+        0.8
         """
         if index is None:
             raise Exception("There must be an index")
