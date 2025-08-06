@@ -1,6 +1,8 @@
 import math
+from numbers import Number
 from typing import Tuple, List, Literal, Callable
 from pyPRUF.fset import FSet
+
 
 class TSControl:
     """
@@ -17,6 +19,28 @@ class TSControl:
         ----------
         rules : list of Rule
             A list of `Rule` objects that define the behavior of the controller.
+
+        Examples
+        --------
+        >>> bg_negative_fs = FSet(
+        ...     mu=lambda x: trapf(x, -10, -10, -7.5, -5),
+        ...    index=np.arange(-10, -4, 0.5)
+        >>> )
+
+        >>> sm_negative_fs = FSet(
+        ...    mu=lambda x: trapf(x, -7.5, -5, -2, 0),
+        ...    index=np.arange(-7.5, 0, 0.5)
+        >>> )
+
+        >>> zero_fs = FSet(
+        ...    mu=lambda x: trimf(x, -2, 0, 2),
+        ...    index=np.arange(-2, 2, 0.5)
+        >>> )
+        >>>
+        >>> ts_control = TSControl([
+        ...    Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out ),
+        ...    Rule( [ ("e", sm_negative_fs), ("ee", zero_fs) ], rule_2_out )
+        >>> ]
         """
         self.rules = rules
 
@@ -45,6 +69,17 @@ class TSControl:
         -------
         float
             The output of a TS control based off its input and rules
+
+        Examples
+        --------
+
+        >>> ts_control = TSControl([
+        ...    Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out ),
+        ...    Rule( [ ("e", sm_negative_fs), ("ee", zero_fs) ], rule_2_out )
+        >>> ]
+
+        >>> ts_control.calculate({ "e": 0.1, "ee": 0.5 }, mode="min")
+
         """
         firing_strengths = list(rule.firing_strength(control_input, mode) for rule in self.rules)
         weighted_sum = 0
@@ -53,27 +88,50 @@ class TSControl:
             row_weighted_sum = firing_strengths[index]
             weighted_sum = weighted_sum + (row_weighted_sum * rule.output(control_input))
 
-
         return weighted_sum / sum(firing_strengths)
+
 
 class Rule:
     """
-    Rule of a fuzzy controller
+    Class that represents a rule of a fuzzy controller
     """
+
     def __init__(
         self,
         rule_items: List[Tuple[str, FSet]] = (),
-        rule_output: Callable = None
+        rule_output: Callable[[dict], Number] = None
     ):
         """
         Initiate a single Rule
         Parameters
         ----------
-        rule_output : callable
-            A callable that will calculate the output of the rule
-        rule_items : list of tuples (str, FSet)
-            List of tuples that represents the single element of a rule.
-            The single rule contains the name of the input (just like a variable) and a Fuzzy set
+        rule_items : list of tuple of (str, FSet), optional
+            A list of tuples representing the rule's input conditions.
+            Each tuple consists of:
+                - str: the name of the input variable
+                - FSet: the fuzzy set associated with that variable
+
+            Defaults to an empty list.
+
+        rule_output : callable, optional
+            A function or lambda that calculates the rule’s output
+            based on the inputs. It can return a crisp value or another
+            fuzzy set, depending on the application.
+
+        Examples
+        --------
+        >>> def out_temp(a, b, c, ee, e):
+        ...     return a * e + b * ee + c
+
+        >>> def rule_1_out(input_c):
+        ...     return out_temp(20, 18, 15, input_c["ee"], input_c["e"])
+
+        >>> bg_negative_fs = FSet(
+        ...     mu=lambda x: trapf(x, -10, -10, -7.5, -5),
+        ...     index=np.arange(-10, -4, 0.5)
+        ... )
+        >>> rule = Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out )
+
         """
         self.output = rule_output
         self.rule_items = list(rule_items)
@@ -100,6 +158,12 @@ class Rule:
         -------
         float
             The rule's firing strength  based off of the input and the mode
+
+        Examples
+        --------
+        >>> rule = Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out )
+        >>> rule.firing_strength({ "e": 0.2, "ee": -0.2 })
+        >>> rule.firing_strength({ "e": 0.2, "ee": -0.2 }, mode="min")
         """
         try:
             mu_items = list(f_set.mu(control_input[elem]) for elem, f_set in self.rule_items)
