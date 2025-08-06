@@ -1,7 +1,7 @@
 from numbers import Number
 import numpy as np
 
-def is_list_out_of_range(x: list, inf: Number, sup: Number):
+def is_list_out_of_range(x: list[Number], inf: Number, sup: Number):
     """
     Check if one element of a list is not in a range
 
@@ -19,6 +19,14 @@ def is_list_out_of_range(x: list, inf: Number, sup: Number):
     bool
         True if one element of x is out of range
         False otherwise
+
+    Examples
+    --------
+    >>> is_list_out_of_range([ 10, 20, 30 ], 0, 50)
+    False
+
+    >>> is_list_out_of_range([ 10, 20, 30 ], 0, 40)
+    True
     """
     return any(is_out_of_range(elem, inf, sup) for elem in x)
 
@@ -40,10 +48,18 @@ def is_out_of_range(x: Number, inf: Number, sup: Number) -> bool:
     bool
         True if x is out of range
         False otherwise
+
+    Examples
+    --------
+    >>> is_out_of_range(45, 0, 50)
+    False
+
+    >>> is_out_of_range(45, 0, 40)
+    True
     """
     return inf > x or x > sup
 
-def is_list_not_unique(x: list) -> bool:
+def is_list_not_unique(x: list[Number]) -> bool:
     """
     Check if list contains duplicates
 
@@ -57,5 +73,13 @@ def is_list_not_unique(x: list) -> bool:
     bool
         True if list contains duplicate
         False otherwise
+
+    Examples
+    --------
+    >>> is_list_not_unique([ 10, 40, 10 ])
+    True
+
+    >>> is_list_not_unique([ 10, 20, 30 ])
+    False
     """
     return np.unique(x).size != len(x)

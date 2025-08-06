@@ -1,3 +1,5 @@
+import math
+
 def trapf(
         x: float = 0,
         a: float = 0,
@@ -31,6 +33,16 @@ def trapf(
     ------
         ValueError: If a, b, c and d are not sequential.
 
+    Examples
+    --------
+    >>> trapf(0, 1, 2, 4, 5)
+    0
+
+    >>> trapf(1.5, 1, 2, 4, 5)
+    0.5
+
+    >>> trapf(3, 1, 2, 4, 5)
+    1
     """
     if not (a <= b <= c <= d):
         raise ValueError("a, b, c and d are not sequential")
@@ -80,10 +92,20 @@ def trimf(
     Raises
     ------
         ValueError: If a, b, c and d are not sequential.
+
+    Examples
+    --------
+    >>> trapf(0, 1, 2, 3)
+    0
+
+    >>> trapf(2, 1, 2, 3)
+    1
+
+    >>> trapf(1.5, 1, 2, 3)
+    0.5
     """
     return trapf(x, a, b, b, c)
 
-import math
 
 def bell(
         x: float = 0,
@@ -110,10 +132,25 @@ def bell(
     float:
         f(x) of the bell function
 
-    Note
-    ----
-    This function does not include normalization constants, and if `s` is 0,
-    it will raise a ZeroDivisionError due to division by zero.
+    Raises
+    ------
+    ZeroDivisionError
+    If `s` is 0, since division by zero occurs.
+
+    Notes
+    -----
+    This function does not include a normalization constant.
+
+    Examples
+    --------
+    >>> bell(x=1, m=0, s=1)
+    0.36787944117144233
+
+    >>> bell(x=0, m=0, s=1)
+    1.0
+
+    >>> bell(x=2, m=0, s=2)
+    0.6065306597126334
     """
     return math.exp((-1 * pow(x - m, 2)) / pow(s, 2))
 
@@ -139,6 +176,17 @@ def gauss(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
     ------
     ValueError
         If `sigma` is 0, since division by zero would occur.
+
+    Examples
+    --------
+    >>> gauss(x=1, mu=1, sigma=1)
+    0.3989422804014337
+
+    >>> gauss(x=0, mu=0, sigma=1)
+    0.3989422804014337
+
+    >>> gauss(x=2, mu=1, sigma=1)
+    0.24197072451914337
     """
     if sigma == 0:
         raise ValueError("sigma must be non-zero")
