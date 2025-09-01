@@ -148,11 +148,12 @@ the keys used in the rules. It also accepts the method to calculate the rule's f
 + product
 
 So, in the other example we can calculate the output of a fuzzy controller:
+
 ```python
 ts_control = TSControl([
-    Rule( [ ("wl", water_f_set_low) ], low_level ),
-    Rule( [ ("wl", water_f_set_high) ], high_level )
+    Rule([("wl", water_f_set_low)], low_level),
+    Rule([("wl", water_f_set_high)], high_level)
 ])
 
-result_a = ts_control.calculate({ "wl": "medium" })
+result_a = ts_control.inference({"wl": "medium"})
 ```

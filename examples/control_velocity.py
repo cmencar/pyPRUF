@@ -21,11 +21,11 @@
 from numpy.ma.core import arange
 
 from pyPRUF import FSet, TSControl, Rule
-from pyPRUF import trapf, trimf
+from pyPRUF import trap_mf, tri_mf
 
-negative_f_set = FSet(mu=lambda x: trapf(x, -5, -5, -1, 0), index=arange(-5, 0, 0.25))
-zero_f_set = FSet(mu=lambda x: trimf(x, -1, 0 -1), index=arange(-1, 0, 0.25))
-positive_f_set = FSet(mu=lambda x: trapf(x, 0, 1, 5, 5), index=arange(0, 5, 0.25))
+negative_f_set = FSet(mu=lambda x: trap_mf(x, -5, -5, -1, 0), index=arange(-5, 0, 0.25))
+zero_f_set = FSet(mu=lambda x: tri_mf(x, -1, 0 - 1), index=arange(-1, 0, 0.25))
+positive_f_set = FSet(mu=lambda x: trap_mf(x, 0, 1, 5, 5), index=arange(0, 5, 0.25))
 
 def rule_one(control_input):
     return -2 * control_input["e"] - control_input["de"] + 0.5
@@ -63,7 +63,7 @@ for v_ref, v_measured in zip(v_ref_arr, v_measured_arr):
     e_curr = v_ref - v_measured
     de = (e_curr - e_prev) / dt
 
-    control_res = controller.calculate({ "e": e_curr, "de": de })
+    control_res = controller.inference({"e": e_curr, "de": de})
 
     print(f"measured vel: {v_measured}\ntarget: {v_ref}\nerror: {e_curr:.2f}\nde: {de:.2f}\ncontrol res: {control_res:.2f}\n")
 

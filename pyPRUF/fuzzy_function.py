@@ -1,6 +1,6 @@
 import math
 
-def trapf(
+def trap_mf(
         x: float = 0,
         a: float = 0,
         b: float = 0,
@@ -35,13 +35,13 @@ def trapf(
 
     Examples
     --------
-    >>> trapf(0, 1, 2, 4, 5)
+    >>> trap_mf(0, 1, 2, 4, 5)
     0
 
-    >>> trapf(1.5, 1, 2, 4, 5)
+    >>> trap_mf(1.5, 1, 2, 4, 5)
     0.5
 
-    >>> trapf(3, 1, 2, 4, 5)
+    >>> trap_mf(3, 1, 2, 4, 5)
     1
     """
     if not (a <= b <= c <= d):
@@ -63,7 +63,7 @@ def trapf(
     else:
         return 0
 
-def trimf(
+def tri_mf(
         x: float = 0,
         a: float = 0,
         b: float = 0,
@@ -95,19 +95,19 @@ def trimf(
 
     Examples
     --------
-    >>> trapf(0, 1, 2, 3)
+    >>> tri_mf(0, 1, 2, 3)
     0
 
-    >>> trapf(2, 1, 2, 3)
+    >>> tri_mf(2, 1, 2, 3)
     1
 
-    >>> trapf(1.5, 1, 2, 3)
+    >>> tri_mf(1.5, 1, 2, 3)
     0.5
     """
-    return trapf(x, a, b, b, c)
+    return tri_mf(x, a, b, b, c)
 
 
-def bell(
+def bell_mf(
         x: float = 0,
         m: float = 0,
         s: float = 0,
@@ -143,18 +143,18 @@ def bell(
 
     Examples
     --------
-    >>> bell(x=1, m=0, s=1)
+    >>> bell_mf(x=1, m=0, s=1)
     0.36787944117144233
 
-    >>> bell(x=0, m=0, s=1)
+    >>> bell_mf(x=0, m=0, s=1)
     1.0
 
-    >>> bell(x=2, m=0, s=2)
+    >>> bell_mf(x=2, m=0, s=2)
     0.6065306597126334
     """
     return math.exp((-1 * pow(x - m, 2)) / pow(s, 2))
 
-def gauss(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
+def gauss_mf(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
     """
     Calculates the value of the normalized Gaussian function.
 
@@ -179,13 +179,13 @@ def gauss(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
 
     Examples
     --------
-    >>> gauss(x=1, mu=1, sigma=1)
+    >>> gauss_mf(x=1, mu=1, sigma=1)
     0.3989422804014337
 
-    >>> gauss(x=0, mu=0, sigma=1)
+    >>> gauss_mf(x=0, mu=0, sigma=1)
     0.3989422804014337
 
-    >>> gauss(x=2, mu=1, sigma=1)
+    >>> gauss_mf(x=2, mu=1, sigma=1)
     0.24197072451914337
     """
     if sigma == 0:

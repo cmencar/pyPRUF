@@ -17,7 +17,7 @@ class TestTSControl(unittest.TestCase):
         "medio": 0.5,
         "basso": 0.8,
         "bassissimo": 1,
-    })
+    }, name="low_level_water")
 
     water_f_set_high = FSet({
         "altissimo": 1,
@@ -25,7 +25,7 @@ class TestTSControl(unittest.TestCase):
         "medio": 0.5,
         "basso": 0.2,
         "bassissimo": 0,
-    })
+    }, name="high_level_water")
 
     def test_rule(self):
         rule = Rule( [ ("wl_1", self.water_f_set_low), ("wl_2", self.water_f_set_low) ], low_level )
@@ -55,8 +55,8 @@ class TestTSControl(unittest.TestCase):
         self.assertEqual(ts_control.rules[0].rule_items[0][0], "wl")
         self.assertEqual(ts_control.rules[1].rule_items[0][0], "wl")
 
-        result_a = ts_control.calculate({ "wl": "medio" })
-        result_b = ts_control.calculate({ "wl": "alto" })
+        result_a = ts_control.inference({"wl": "medio"})
+        result_b = ts_control.inference({"wl": "alto"})
 
         self.assertEqual(result_a, 0)
         self.assertEqual(result_b, -30)

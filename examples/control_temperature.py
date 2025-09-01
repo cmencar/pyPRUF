@@ -1,30 +1,30 @@
 import numpy as np
 
-from pyPRUF import FSet, trapf, trimf
+from pyPRUF import FSet, trap_mf, tri_mf
 from pyPRUF import TSControl, Rule
 
 bg_negative_fs = FSet(
-    mu=lambda x: trapf(x, -10, -10, -7.5, -5),
+    mu=lambda x: trap_mf(x, -10, -10, -7.5, -5),
     index=np.arange(-10, -4, 0.5)
 )
 
 sm_negative_fs = FSet(
-    mu=lambda x: trapf(x, -7.5, -5, -2, 0),
+    mu=lambda x: trap_mf(x, -7.5, -5, -2, 0),
     index=np.arange(-7.5, 0, 0.5)
 )
 
 zero_fs = FSet(
-    mu=lambda x: trimf(x, -2, 0, 2),
+    mu=lambda x: tri_mf(x, -2, 0, 2),
     index=np.arange(-2, 2, 0.5)
 )
 
 sm_positive_fs = FSet(
-    mu=lambda x: trapf(x, 0, 2, 5, 7.5),
+    mu=lambda x: trap_mf(x, 0, 2, 5, 7.5),
     index=np.arange(0, 7.5, 0.5)
 )
 
 bg_positive_fs = FSet(
-    mu=lambda x: trapf(x, 5, 7.5, 10, 10),
+    mu=lambda x: trap_mf(x, 5, 7.5, 10, 10),
     index=np.arange(5, 10, 0.5)
 )
 
@@ -54,7 +54,7 @@ ts_control = TSControl([
     Rule( [ ("e", bg_positive_fs), ("ee", bg_positive_fs) ], rule_5_out ),
 ])
 
-res = ts_control.calculate({
+res = ts_control.inference({
     "e": -8,
     "ee": -6
 })

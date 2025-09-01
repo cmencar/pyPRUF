@@ -22,18 +22,18 @@ class TSControl:
 
         Examples
         --------
-        >>> bg_negative_fs = FSet(
-        ...     mu=lambda x: trapf(x, -10, -10, -7.5, -5),
+        >>> from pyPRUF import trap_mf        >>> bg_negative_fs = FSet(
+        ...     mu=lambda x: trap_mf(x, -10, -10, -7.5, -5),
         ...    index=np.arange(-10, -4, 0.5)
         >>> )
 
         >>> sm_negative_fs = FSet(
-        ...    mu=lambda x: trapf(x, -7.5, -5, -2, 0),
+        ...    mu=lambda x: trap_mf(x, -7.5, -5, -2, 0),
         ...    index=np.arange(-7.5, 0, 0.5)
         >>> )
 
-        >>> zero_fs = FSet(
-        ...    mu=lambda x: trimf(x, -2, 0, 2),
+        >>> from pyPRUF import tri_mf        >>> zero_fs = FSet(
+        ...    mu=lambda x: tri_mf(x, -2, 0, 2),
         ...    index=np.arange(-2, 2, 0.5)
         >>> )
         >>>
@@ -44,10 +44,13 @@ class TSControl:
         """
         self.rules = rules
 
-    def calculate(
-            self,
-            control_input: dict = None,
-            mode: Literal["prod", "min"] = "prod"
+    def __str__(self):
+        return "Controller rules:\n" + f"\n".join( f"Rule {i + 1}: {str(rule)}" for i, rule in enumerate(self.rules))
+
+    def inference(
+        self,
+        control_input: dict = None,
+        mode: Literal["prod", "min"] = "prod"
     ):
         """
         Calculate the controller output based on the provided input and fuzzy rules.
@@ -65,6 +68,11 @@ class TSControl:
 
             Default is 'prod'.
 
+        Raises
+        ------
+        Exception:
+            - If the sum of firing strenghts is 0
+
         Returns
         -------
         float
@@ -78,10 +86,15 @@ class TSControl:
         ...    Rule( [ ("e", sm_negative_fs), ("ee", zero_fs) ], rule_2_out )
         >>> ]
 
-        >>> ts_control.calculate({ "e": 0.1, "ee": 0.5 }, mode="min")
+        >>> ts_control.inference({ "e": 0.1, "ee": 0.5 }, mode="min")
 
         """
         firing_strengths = list(rule.firing_strength(control_input, mode) for rule in self.rules)
+        tot_firing_strength = sum(firing_strengths)
+
+        if tot_firing_strength == 0:
+            raise Exception("The sum of firing strengths is 0!")
+
         weighted_sum = 0
 
         for index, rule in enumerate(self.rules):
@@ -127,7 +140,7 @@ class Rule:
         ...     return out_temp(20, 18, 15, input_c["ee"], input_c["e"])
 
         >>> bg_negative_fs = FSet(
-        ...     mu=lambda x: trapf(x, -10, -10, -7.5, -5),
+        ...     mu=lambda x: trap_mf(x, -10, -10, -7.5, -5),
         ...     index=np.arange(-10, -4, 0.5)
         ... )
         >>> rule = Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out )
@@ -135,6 +148,10 @@ class Rule:
         """
         self.output = rule_output
         self.rule_items = list(rule_items)
+
+    def __str__(self):
+        return (f'If { " ⋀ ".join(f"{var} ∈ {f_set.name}" for var, f_set in self.rule_items) }'
+                f' then o = {self.output.__name__}(...input)')
 
     def firing_strength(
             self,
@@ -165,14 +182,17 @@ class Rule:
         >>> rule.firing_strength({ "e": 0.2, "ee": -0.2 })
         >>> rule.firing_strength({ "e": 0.2, "ee": -0.2 }, mode="min")
         """
-        try:
-            mu_items = list(f_set.mu(control_input[elem]) for elem, f_set in self.rule_items)
-        except:
-            raise Exception("Cannot access to some element, check for missing keys")
-        else:
-            if mode == "prod":
+        if mode == "prod":
+            try:
+                mu_items = list(f_set.mu(control_input[elem]) for elem, f_set in self.rule_items)
                 res = math.prod(mu_items)
-            else:
-                res = min(mu_items)
+            except:
+                raise Exception("Cannot access to some element, check for missing keys")
+        else:
+            intersection = FSet(mu={})
+            for _elem, f_set in self.rule_items:
+                intersection = intersection.intersection(f_set)
 
-            return res if res != 0 else 0.01
+            res = min(list(intersection.mu(elem) for elem, f_set in self.rule_items))
+
+        return res

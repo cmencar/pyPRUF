@@ -1,4 +1,4 @@
-# Fuzzy Extension of the Pandas Library
+# Pruf Pandas - Fuzzy Extension of the Pandas Library
 
 This project extends the capabilities of the **pandas** library to support fuzzy set operations. The objective is to provide tools for representing and working with:
 
@@ -253,4 +253,5 @@ f_set_b = FSet(mu=np.array([0.2, 0.2, 0.3]), index=np.array([1, 2, 3]), default_
 
 f_set_a.is_included(f_set_b)
 ```
+
 

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from pyPRUF.fset import FSet
-from pyPRUF.fuzzy_function import trapf, gauss, trimf, bell
+from pyPRUF.fuzzy_function import trap_mf, gauss_mf, tri_mf, bell_mf
 
 
 class TestFSet(unittest.TestCase):
@@ -73,10 +73,10 @@ class TestFSet(unittest.TestCase):
         self.assertEqual(f_set[1], 0.5)
 
     def test_constructor_func(self):
-        f_set_a = FSet(mu= lambda x: trapf(x, 1, 4, 5, 8), index=[1, 2.5, 4.5])
-        f_set_b = FSet(mu= lambda x: trimf(x, 1, 4, 5), index=[1, 5, 4, 10])
-        f_set_c = FSet(mu= lambda x: gauss(x, 1, 2), index=[1, 5, 2, 10])
-        f_set_d = FSet(mu= lambda x: bell(x, 1, 4), index=[1, 5, 2, 10])
+        f_set_a = FSet(mu= lambda x: trap_mf(x, 1, 4, 5, 8), index=[1, 2.5, 4.5])
+        f_set_b = FSet(mu= lambda x: tri_mf(x, 1, 4, 5), index=[1, 5, 4, 10])
+        f_set_c = FSet(mu= lambda x: gauss_mf(x, 1, 2), index=[1, 5, 2, 10])
+        f_set_d = FSet(mu= lambda x: bell_mf(x, 1, 4), index=[1, 5, 2, 10])
 
         self.assertEqual(f_set_a[1], 0)
         self.assertEqual(f_set_a[2.5], 0.5)

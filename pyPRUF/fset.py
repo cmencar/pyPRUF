@@ -13,7 +13,7 @@ from pandas._libs.tslibs import BaseOffset
 from pandas._typing import IgnoreRaise, Self, DtypeBackend, Frequency, Axis, AnyArrayLike, AggFuncType, IndexLabel, \
     IntervalClosedType, TimedeltaConvertibleTypes, T, CorrelationMethod, QuantileInterpolation, NDFrameT, \
     AlignJoin, Level, FillnaOptions, Scalar, DropKeep, Suffixes, \
-    TimestampConvertibleTypes, TimeAmbiguous, TimeNonexistent, SortKind, NaPosition, IndexKeyFunc, ValueKeyFunc, AxisInt
+    TimestampConvertibleTypes, TimeAmbiguous, TimeNonexistent, SortKind, NaPosition, IndexKeyFunc, ValueKeyFunc
 from pandas.core.generic import bool_t
 from pandas.core.groupby import SeriesGroupBy
 from pandas.core.indexers.objects import BaseIndexer
@@ -69,6 +69,7 @@ class FSet(Series):
             mu: None | list | np.ndarray | dict | Series | Callable[[float], float] | bool = None,
             index: None | list | Index | np.ndarray = None,
             default_value: float = 0,
+            name: str = "mu"
     ):
         """
         Constructor of the class, it implements different ways to create a FSet depending on the parameters types:
@@ -91,6 +92,8 @@ class FSet(Series):
             If mu is a dict or a Series this parameter must be empty
         default_value: float
             Default membership for the value that are not in the index
+        name: string
+            Name of the series
 
         Raises
         ------
@@ -189,7 +192,7 @@ class FSet(Series):
         z  = zip(index_list, data_list[:len(index_list)])
         indexes, values = zip(*((x, y) for x, y in z)) if len(index_list) > 0 else [[], []]
 
-        super().__init__(data=values, index=indexes, name="mu")
+        super().__init__(data=values, index=indexes, name=name)
 
         if isinstance(mu, bool):
             self.default_value = int(mu)
@@ -225,8 +228,8 @@ class FSet(Series):
 
         super().__setitem__(key, value)
 
-    def __repr__(self):
-        return f'{super().__repr__()}\nDefault value: {self.default_value}'
+    def __str__(self):
+        return f'{super().__str__()}\nDefault value: {self.default_value}'
 
     def __getitem__(self, index):
         if self.index.__contains__(index):
