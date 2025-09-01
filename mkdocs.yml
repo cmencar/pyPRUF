@@ -32,5 +32,6 @@ nav:
     - Discrete Fuzzy Sets: fuzzy_rel_alg.md
     - Continuous Fuzzy Sets: cont_fuzzy_sets.md
     - Translation Rules: translation_rules.md
+    - PYPRUF Pandas: pruf_pandas.md
   - API: api.md
   - About: about.md

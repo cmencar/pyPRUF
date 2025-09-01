@@ -152,6 +152,7 @@ class TestFSet(unittest.TestCase):
     def test_to_numpy(self):
         f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
         numpy_list = f_set_a.to_numpy()
+        print(numpy_list)
 
         self.assertEqual(numpy_list[0][0], 1)
         self.assertEqual(numpy_list[0][1], 0.8)
