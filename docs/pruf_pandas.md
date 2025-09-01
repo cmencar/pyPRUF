@@ -255,43 +255,43 @@ f_set_a.is_included(f_set_b)
 ```
 
 ---
-# Metodi ereditati da Series
+# Methods inherited from Series
 
-## Metodi di conversione
+## Conversion methods
 
 - [`Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html#pandas.Series.astype)  
-  Cast dei valori ad un tipo specificato.  
-  **Non utilizzabile, verrà lancia eccezione**
+  Casts the values to a specified type.  
+  **Not usable, will raise an exception**
 
 - [`Series.convert_dtypes`](https://pandas.pydata.org/docs/reference/api/pandas.Series.convert_dtypes.html#pandas.Series.convert_dtypes)  
-  Converte i valori ad un tipo specificato.  
-  **Non utilizzabile, verrà lancia eccezione**
+  Converts the values to a specified type.  
+  **Not usable, will raise an exception**
 
 - [`Series.infer_objects`](https://pandas.pydata.org/docs/reference/api/pandas.Series.infer_objects.html#pandas.Series.infer_objects)  
-  Inferenza del tipo.  
-  **Non utilizzabile, verrà lancia eccezione**
+  Infers the type.  
+  **Not usable, will raise an exception**
 
 - [`Series.to_numpy`](https://pandas.pydata.org/docs/reference/api/pandas.Series.to_numpy.html#pandas.Series.to_numpy)  
-  Ritorna un array numpy.  
-  Può essere usato per ottenere un array numpy con coppie del tipo:
+  Returns a numpy array.  
+  Can be used to obtain a numpy array with pairs of the form:
 
   $$
   (x, \mu(x))
   $$
 
-  Il parametro `dtype` viene ignorato.
+  The `dtype` parameter is ignored.
 
 - [`Series.to_period`](https://pandas.pydata.org/docs/reference/api/pandas.Series.to_period.html#pandas.Series.to_period)  
-  Converte in `PeriodIndex`.  
-  **Non utilizzabile, verrà lancia eccezione**
+  Converts to `PeriodIndex`.  
+  **Not usable, will raise an exception**
 
 - [`Series.to_timestamp`](https://pandas.pydata.org/docs/reference/api/pandas.Series.to_timestamp.html#pandas.Series.to_timestamp)  
-  Converte in `Timestamp`.  
-  **Non utile al caso di studio → lancia eccezione**
+  Converts to `Timestamp`.  
+  **Not useful for this case study → raises an exception**
 
 - [`Series.to_list`](https://pandas.pydata.org/docs/reference/api/pandas.Series.to_list.html#pandas.Series.to_list)  
-  Ritorna una lista dalla `Series`.  
-  Può essere usato per ottenere una lista con coppie del tipo:
+  Returns a list from the `Series`.  
+  Can be used to obtain a list with pairs of the form:
 
   $$
   (x, \mu(x))
@@ -299,21 +299,21 @@ f_set_a.is_included(f_set_b)
 
 ---
 
-## Accesso ai valori
+## Value access
 
 - [`Series.get`](https://pandas.pydata.org/docs/reference/api/pandas.Series.get.html#pandas.Series.get)  
-  Accede al valore di $\mu$ dato l'identificativo di un elemento.
+  Accesses the membership value $\mu$ given the identifier of an element.
 
 - [`Series.at`](https://pandas.pydata.org/docs/reference/api/pandas.Series.at.html#pandas.Series.at)
 - [`Series.iat`](https://pandas.pydata.org/docs/reference/api/pandas.Series.iat.html#pandas.Series.iat)
 - [`Series.loc`](https://pandas.pydata.org/docs/reference/api/pandas.Series.loc.html#pandas.Series.loc)
 - [`Series.iloc`](https://pandas.pydata.org/docs/reference/api/pandas.Series.iloc.html#pandas.Series.iloc)
 
-Metodi utilizzabili per accedere alle membership value di un singolo valore.
+Usable methods to access the membership value of a single element.
 
 ---
 
-## Iterazione e accesso a chiavi/valori
+## Iteration and key/value access
 
 - [`Series.__iter__`](https://pandas.pydata.org/docs/reference/api/pandas.Series.__iter__.html#pandas.Series.__iter__)
 - [`Series.items`](https://pandas.pydata.org/docs/reference/api/pandas.Series.items.html#pandas.Series.items)
@@ -322,11 +322,11 @@ Metodi utilizzabili per accedere alle membership value di un singolo valore.
 - [`Series.item`](https://pandas.pydata.org/docs/reference/api/pandas.Series.item.html#pandas.Series.item)
 - [`Series.xs`](https://pandas.pydata.org/docs/reference/api/pandas.Series.xs.html#pandas.Series.xs)
 
-Metodi utilizzabili per accedere alle membership value dei vari valori.
+Usable methods to access the membership values of multiple elements.
 
 ---
 
-## Operazioni aritmetiche
+## Arithmetic operations
 
 - [`Series.add`](https://pandas.pydata.org/docs/reference/api/pandas.Series.add.html#pandas.Series.add)
 - [`Series.sub`](https://pandas.pydata.org/docs/reference/api/pandas.Series.sub.html#pandas.Series.sub)
@@ -334,20 +334,20 @@ Metodi utilizzabili per accedere alle membership value dei vari valori.
 - [`Series.div`](https://pandas.pydata.org/docs/reference/api/pandas.Series.div.html#pandas.Series.div)
 - [`Series.truediv`](https://pandas.pydata.org/docs/reference/api/pandas.Series.truediv.html#pandas.Series.truediv)
 
-Consentite **solo con valori scalari**.  
-I valori devono sempre rimanere nel range `[0, 1]`.
+Allowed **only with scalar values**.  
+Values must always remain within the range `[0, 1]`.
 
 - [`Series.floordiv`](https://pandas.pydata.org/docs/reference/api/pandas.Series.floordiv.html#pandas.Series.floordiv)
 - [`Series.mod`](https://pandas.pydata.org/docs/reference/api/pandas.Series.mod.html#pandas.Series.mod)  
-  **Non utilizzabili → lancia eccezione**
+  **Not usable → raises an exception**
 
 - [`Series.pow`](https://pandas.pydata.org/docs/reference/api/pandas.Series.pow.html#pandas.Series.pow)  
-  Utile per rafforzare valori nel fuzzy set.  
-  Ammessi solo valori scalari.
+  Useful for strengthening values in the fuzzy set.  
+  Only scalar values allowed.
 
 ---
 
-## Confronti logici
+## Logical comparisons
 
 - [`Series.lt`](https://pandas.pydata.org/docs/reference/api/pandas.Series.lt.html#pandas.Series.lt)
 - [`Series.gt`](https://pandas.pydata.org/docs/reference/api/pandas.Series.gt.html#pandas.Series.gt)
@@ -356,17 +356,17 @@ I valori devono sempre rimanere nel range `[0, 1]`.
 - [`Series.ne`](https://pandas.pydata.org/docs/reference/api/pandas.Series.ne.html#pandas.Series.ne)
 - [`Series.eq`](https://pandas.pydata.org/docs/reference/api/pandas.Series.eq.html#pandas.Series.eq)
 
-Utilizzati per ottenere una `Series` booleana.
+Used to return a boolean `Series`.
 
 ---
 
-## Altri metodi (selezione)
+## Other methods (selection)
 
 - [`Series.apply`](https://pandas.pydata.org/docs/reference/api/pandas.Series.apply.html#pandas.Series.apply)  
-  Permette di applicare una funzione sull FSet, **controllando che i valori restino in [0,1]**.
+  Applies a function to the FSet, **ensuring that values remain within [0,1]**.
 
 - [`Series.clip`](https://pandas.pydata.org/docs/reference/api/pandas.Series.clip.html#pandas.Series.clip)  
-  Utile per forzare i valori entro `[0,1]`.
+  Useful for forcing values within `[0,1]`.
 
 - [`Series.max`](https://pandas.pydata.org/docs/reference/api/pandas.Series.max.html#pandas.Series.max)
 - [`Series.min`](https://pandas.pydata.org/docs/reference/api/pandas.Series.min.html#pandas.Series.min)
@@ -376,37 +376,37 @@ Utilizzati per ottenere una `Series` booleana.
 - [`Series.nlargest`](https://pandas.pydata.org/docs/reference/api/pandas.Series.nlargest.html#pandas.Series.nlargest)
 - [`Series.nsmallest`](https://pandas.pydata.org/docs/reference/api/pandas.Series.nsmallest.html#pandas.Series.nsmallest)
 
-Statistiche utili per analisi del fuzzy set.
+Useful statistics for fuzzy set analysis.
 
 - [`Series.unique`](https://pandas.pydata.org/docs/reference/api/pandas.Series.unique.html#pandas.Series.unique)
 - [`Series.nunique`](https://pandas.pydata.org/docs/reference/api/pandas.Series.nunique.html#pandas.Series.nunique)
 - [`Series.is_unique`](https://pandas.pydata.org/docs/reference/api/pandas.Series.is_unique.html#pandas.Series.is_unique)
 
-Statistiche di supporto.
+Supporting statistics.
 
 - [`Series.filter`](https://pandas.pydata.org/docs/reference/api/pandas.Series.filter.html#pandas.Series.filter)
 - [`Series.where`](https://pandas.pydata.org/docs/reference/api/pandas.Series.where.html#pandas.Series.where)
 
-Consentiti per filtrare elementi del fuzzy set.
+Allowed for filtering elements of the fuzzy set.
 
 ---
 
-## Gruppi di metodi invariati
+## Groups of unchanged methods
 
 - Plotting
-- Serializzazione (lettura/scrittura)
+- Serialization (read/write)
 
 ---
 
-## Gruppi di metodi disabilitati
-- Gestione dati mancanti (`isna`, `fillna`, ecc.)
-- Metodi statistici avanzati (`std`, `var`, `sem`, `skew`, ecc.)
+## Groups of disabled methods
+
+- Missing data handling (`isna`, `fillna`, etc.)
+- Advanced statistical methods (`std`, `var`, `sem`, `skew`, etc.)
 - TimeSeries
 - String accessor
 - Categorical accessor
 - Sparse accessor
 - Timedelta
 - Datetime
-- Alcune funzioni di aggregazione (`agg`, `groupby`, `rolling`, ecc.)
-- Operazioni non coerenti con fuzzy set (`dot`, `product`, ecc.)
-
+- Some aggregation functions (`agg`, `groupby`, `rolling`, etc.)
+- Operations not coherent with fuzzy sets (`dot`, `product`, etc.)
