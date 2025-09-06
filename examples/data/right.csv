@@ -1,0 +1,85 @@
+Nome,Valore
+avanti,0
+procedere,0
+proseguire,0
+fare progressi,0
+marciare,0
+progredire,0
+farsi strada,0
+puntare in avanti,0
+nord,0
+nord-est,0.6
+nord-ovest,0
+avanti e su,0
+avanti e giù,0
+avanti a destra,0
+avanti a sinistra,0
+indietro,0
+retrocedere,0
+tornare,0
+marcia indietro,0
+arretrare,0
+ritirarsi,0
+volgere indietro,0
+fare passo indietro,0
+sud,0
+sud-est,0.6
+sud-ovest,0
+indietro e su,0
+indietro e giù,0
+indietro a destra,0.6
+indietro a sinistra,0
+destra,1
+deviare a destra,0.9
+piegare a destra,0.9
+sterzare a destra,0.8
+spostarsi a destra,0.9
+est,1
+sud-est,0.6
+nord-est,0.6
+a destra e avanti,0.6
+a destra e indietro,0.6
+a destra e su,0.6
+a destra e giù,0.6
+inclinarsi a destra,0.9
+curvare a destra,0.8
+muoversi lateralmente a destra,1
+sinistra,1
+deviare a sinistra,0.8
+piegare a sinistra,0.8
+sterzare a sinistra,0.9
+spostarsi a sinistra,1
+ovest,0
+sud-ovest,0
+nord-ovest,0
+a sinistra e avanti,0
+a sinistra e indietro,0
+a sinistra e su,0
+a sinistra e giù,0
+inclinarsi a sinistra,0
+curvare a sinistra,0
+muoversi lateralmente a sinistra,0
+su,0
+salire,0
+ascendere,0
+innalzarsi,0
+sollevarsi,0
+crescere,0
+elevarsi,0
+montare,0
+su e avanti,0
+su e indietro,0
+su a destra,0.6
+su a sinistra,0
+giù,0
+scendere,0
+discendere,0
+abbassarsi,0
+calare,0
+degradare,0
+affondare,0
+ridursi,0
+giù e avanti,0
+giù e indietro,0
+giù a destra,0.6
+giù a sinistra,0

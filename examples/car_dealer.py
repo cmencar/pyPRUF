@@ -60,9 +60,9 @@ fuzzy_high_mileage = FSet(
 )
 
 # Age
-fuzzy_old = FSet(
-    mu=lambda x: trap_mf(x, 12, 14, 50, 50),
-    index=np.arange(12, 50, 1),
+fuzzy_old_age = FSet(
+    mu=lambda x: trap_mf(x, 10, 14, 50, 50),
+    index=np.arange(11, 50, 1),
     name="Old car"
 )
 
