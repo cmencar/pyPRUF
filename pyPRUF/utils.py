@@ -57,6 +57,7 @@ def is_out_of_range(x: Number, inf: Number, sup: Number) -> bool:
     >>> is_out_of_range(45, 0, 40)
     True
     """
+    print(x)
     return inf > x or x > sup
 
 def is_list_not_unique(x: list[Number]) -> bool:

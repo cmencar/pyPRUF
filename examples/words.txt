@@ -1,0 +1,191 @@
+1. Andare avanti
+
+avanti
+
+procedere
+
+avanzare
+
+fare progressi
+
+farsi strada
+
+dirigersi
+
+progredire
+
+spingere avanti
+
+nord
+
+nord-est
+
+marciare
+
+proseguire
+
+guidare
+
+andare oltre
+
+puntare
+
+2. Andare indietro
+
+indietro
+
+retrocedere
+
+tornare
+
+fare marcia indietro
+
+arretrare
+
+ritirarsi
+
+sud
+
+sud-ovest
+
+tornare indietro
+
+volgere indietro
+
+retrocedere lentamente
+
+riflettere
+
+allontanarsi
+
+scostarsi
+
+ritornare
+
+3. Andare a destra
+
+destra
+
+spostarsi a destra
+
+piegare a destra
+
+deviare a destra
+
+est
+
+nord-est
+
+inclinarsi a destra
+
+scostarsi a destra
+
+dirigersi a destra
+
+muoversi lateralmente
+
+girare a destra
+
+spostarsi lateralmente
+
+sterzare a destra
+
+curvare a destra
+
+fare deviazione
+
+4. Andare a sinistra
+
+sinistra
+
+spostarsi a sinistra
+
+piegare a sinistra
+
+deviare a sinistra
+
+ovest
+
+nord-ovest
+
+inclinarsi a sinistra
+
+scostarsi a sinistra
+
+dirigersi a sinistra
+
+muoversi lateralmente
+
+girare a sinistra
+
+sterzare a sinistra
+
+curvare a sinistra
+
+fare deviazione
+
+spostarsi lateralmente
+
+5. Andare su
+
+su
+
+salire
+
+ascendere
+
+elevarsi
+
+dirigersi verso l’alto
+
+innalzarsi
+
+sollevarsi
+
+alzarsi
+
+nord
+
+nord-est
+
+progredire verso l’alto
+
+innalzamento
+
+montare
+
+crescere
+
+elevarsi gradualmente
+
+6. Andare giù
+
+giù
+
+scendere
+
+discendere
+
+abbassarsi
+
+dirigersi verso il basso
+
+calare
+
+affondare
+
+degradare
+
+sud
+
+sud-est
+
+ridursi
+
+discendere lentamente
+
+abbassamento
+
+calare gradualmente
+
+scivolare giù
