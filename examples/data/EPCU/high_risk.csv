@@ -1,0 +1,31 @@
+Nome,Valore
+Trascurabile,0
+Minimo,0
+Marginale,0
+Limitato,0
+Ridotto,0
+Controllabile,0
+Accettabile,0
+Contenuto,0
+Prevedibile,0
+Basso,0
+Moderato,0.4
+Non trascurabile,0.4
+Variabile,0.4
+Gestibile,0.4
+Medio,0.4
+Significativo,0.5
+Reale,0.4
+Sensibile,0.4
+Potenziale,0.4
+Rilevante,0.5
+Elevato,1
+Critico,1
+Instabile,0.9
+Pericoloso,0.9
+Vulnerabile,1
+Grave,0.9
+Estremo,1
+Molto alto,1
+Imminente,1
+Catastrofico,1

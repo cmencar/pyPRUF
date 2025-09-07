@@ -18,7 +18,7 @@ def go_fast(direction, _input):
 
 controller_ud = TSControl([
     Rule([ ("direction", f_set_down), ("speed", f_set_slow) ], lambda x: go_slow(-1, x)),
-    Rule([ ("direction", f_set_down), ("speed", f_set_fast) ], lambda x: go_medium(-1, x)),
+    Rule([ ("direction", f_set_down), ("speed", f_set_moderate) ], lambda x: go_medium(-1, x)),
     Rule([ ("direction", f_set_down), ("speed", f_set_fast) ], lambda x: go_fast(-1, x)),
 
     Rule([ ("direction", f_set_up), ("speed", f_set_slow) ], lambda x: go_slow(1, x)),
@@ -46,7 +46,7 @@ controller_fb = TSControl([
     Rule([ ("direction", f_set_backward), ("speed", f_set_fast) ], lambda x: go_fast(-1, x)),
 ])
 
-i = { "direction": "nord", "speed": "Costante"}
+i = { "direction": "nord", "speed": "Immediato"}
 
 rl, fb, ud = (0, 0, 0)
 

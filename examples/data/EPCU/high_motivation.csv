@@ -1,0 +1,31 @@
+Nome,Valore
+Demotivato,0
+Disinteressato,0
+Passivo,0
+Indifferente,0
+Inattivo,0
+Riluttante,0
+Scarso impegno,0
+Poco coinvolto,0
+Frustrato,0
+Resistente,0.4
+Moderatamente motivato,0.5
+Regolare,0.4
+Coinvolto,0.5
+Partecipativo,0.4
+Attento,0.4
+Disciplinato,0.4
+Motivazione costante,0.4
+Collaborativo,0.4
+Responsabile,0.5
+Interessato,1
+Altamente motivato,1
+Proattivo,1
+Determinato,0.9
+Impegnato,1
+Orientato agli obiettivi,1
+Entusiasta,0.8
+Iniziativa propria,1
+Perseverante,1
+Focalizzato,0.9
+Eccellente impegno,1
