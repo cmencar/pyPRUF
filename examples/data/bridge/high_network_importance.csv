@@ -1,0 +1,31 @@
+Nome,Valore
+Marginale,0
+Limitata,0
+Locale,0
+Secondaria,0
+Ridotta,0
+Accessoria,0
+Poco rilevante,0
+Residuale,0
+Non strategica,0
+Occasionale,0
+Intermedia,0.3
+Rilevante,0.3
+Regionale,0.4
+Funzionale,0.3
+Centrale,0.3
+Utile,0.3
+Strategica locale,0.4
+Connessa,0.3
+Normale,0.3
+Significativa,0.4
+Fondamentale,1
+Vitale,0.9
+Nazionale,1
+Critica,1
+Prioritaria,1
+Indispensabile,1
+Maggiore,1
+Essenziale,0.9
+Chiave,0.9
+Primaria,1

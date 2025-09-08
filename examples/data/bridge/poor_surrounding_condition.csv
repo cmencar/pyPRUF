@@ -1,0 +1,31 @@
+Nome,Valore
+Tranquille,0
+Ordinarie,0
+Sicure,0
+Stabili,0
+Normali,0
+Protette,0
+Controllate,0
+Gestite,0
+Favorevoli,0
+Ottimali,0
+Moderate,0.3
+Variabili,0.4
+Interferenti,0.4
+Parzialmente critiche,0.4
+Sensibili,0.3
+Influenzanti,0.3
+Occupate,0.3
+Caricate,0.3
+Condizionate,0.3
+Complesse,0.3
+Critiche,1
+Pericolose,1
+Instabili,1
+Ostili,0.8
+Gravi,1
+Degradate,1
+Estreme,0.9
+A rischio,1
+Avverse,0.9
+Compromettenti,1

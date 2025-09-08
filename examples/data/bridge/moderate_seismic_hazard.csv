@@ -1,0 +1,31 @@
+Nome,Valore
+Trascurabile,0.2
+Bassa,0.2
+Minima,0.2
+Limitata,0.2
+Locale,0.2
+Ridotta,0.2
+Sicura,0.2
+Stabile,0.3
+Controllata,0.2
+Accettabile,0.2
+Moderata,1
+Rilevante,0.9
+Non trascurabile,0.9
+Potenziale,1
+Variabile,1
+Intermedia,1
+Gestibile,1
+Sostenuta,1
+Sensibile,0.9
+Standard,1
+Elevata,0.2
+Grave,0.2
+Critica,0.2
+Estrema,0.2
+Massima,0.2
+Pericolosa,0.2
+Compromettente,0.3
+Distruttiva,0.2
+Alta frequenza,0.2
+Catastrofica,0.2
