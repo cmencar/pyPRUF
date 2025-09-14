@@ -8,4 +8,4 @@ __credits__ = 'CILAB - Università degli Studi di Bari Aldo Moro'
 
 from .fset import FSet
 from .fuzzy_function import tri_mf, trap_mf, bell_mf, gauss_mf
-from .ts_control import TSControl, Rule
+from .ts_control import TSControl, TSRule

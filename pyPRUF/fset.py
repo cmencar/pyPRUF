@@ -20,7 +20,7 @@ from pandas.core.indexers.objects import BaseIndexer
 from pandas.core.resample import Resampler
 from pandas.core.window import Rolling, Window, Expanding, ExponentialMovingWindow
 
-from pyPRUF.config import fuzzy_sets_parameters
+from pyPRUF.config import config
 from pyPRUF.utils import is_list_not_unique, is_out_of_range, is_list_out_of_range
 
 
@@ -275,7 +275,7 @@ class FSet(Series):
         Default value: 0.2
         """
         if t_norm is None:
-            t_norm = fuzzy_sets_parameters.t_norm
+            t_norm = config.t_norm
 
         if not callable(t_norm):
             raise ValueError("Invalid t_norm, it's not callable")
@@ -323,7 +323,7 @@ class FSet(Series):
         Default value: 0.5
         """
         if s_norm is None:
-            s_norm = fuzzy_sets_parameters.s_norm
+            s_norm = config.s_norm
 
         if not callable(s_norm):
             raise Exception("Invalid s_norm, it's not callable")
@@ -368,7 +368,7 @@ class FSet(Series):
         Default value: 0.8
         """
         if complement is None:
-            complement = fuzzy_sets_parameters.complement
+            complement = config.complement
 
         if not callable(complement):
             raise ValueError("Invalid complement, it's not callable")
@@ -438,6 +438,39 @@ class FSet(Series):
             return self[index]
         else:
             return self.default_value
+
+    def equals(self, other: object) -> bool_t:
+        """
+        Verifica se due FSet sono uguali confrontando sia i valori che il default_value.
+
+        Parameters
+        ----------
+        other : object
+            Oggetto da confrontare con l'istanza corrente. Deve essere un FSet o una struttura compatibile.
+
+        Returns
+        -------
+        bool
+            True se i due oggetti sono uguali, False altrimenti.
+
+        Raises
+        ------
+        AttributeError
+            - Se l'oggetto passato non possiede l'attributo `default_value`.
+
+        Examples
+        --------
+        >>> f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+        >>> f_set_b = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+        >>> f_set_c = FSet(mu=np.array([0.8, 1, 0.5]), index=np.array([1, 2, 3]), default_value=0.2)
+
+        >>> f_set_a.equals(f_set_b)
+        True
+
+        >>> f_set_a.equals(f_set_c)
+        False
+        """
+        return super().equals(other) and self.default_value == other.default_value
 
     def to_numpy(
             self,
@@ -924,7 +957,7 @@ class FSet(Series):
             sort_remaining: bool = True,
             ignore_index: bool = False,
             key: IndexKeyFunc | None = None,
-    ) -> "FSet" | None:
+    ) -> FSet | None:
         res = super().sort_index(
             axis=axis,
             level=level,
@@ -952,7 +985,7 @@ class FSet(Series):
             na_position: NaPosition = "last",
             ignore_index: bool = False,
             key: ValueKeyFunc | None = None,
-    ) ->  "FSet" | None:
+    ) -> FSet | None:
         res = super().sort_values(
             axis=axis,
             ascending=ascending,

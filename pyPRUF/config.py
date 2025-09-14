@@ -1,4 +1,4 @@
-class FuzzySetParameters:
+class Config:
     """
     Class used in pyPRUF library to manage its config
     """
@@ -7,4 +7,4 @@ class FuzzySetParameters:
         self.s_norm = max
         self.complement = lambda x: 1 - x
 
-fuzzy_sets_parameters = FuzzySetParameters()
+config = Config()

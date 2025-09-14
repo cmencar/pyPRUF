@@ -2,7 +2,7 @@ from examples.epcu_fuzzy import low_complexity_f_set, short_term_f_set, high_t_e
     high_l_experience_f_set, high_motivation_f_set, low_size_f_set, moderate_complexity_f_set, high_complexity_f_set, \
     high_risk_f_set, low_t_experience_f_set, low_motivation_f_set, long_term_f_set, moderate_size_f_set, \
     moderate_l_experience_f_set, low_l_experience_f_set, moderate_risk_f_set, moderate_motivation_f_set
-from pyPRUF import TSControl, Rule
+from pyPRUF import TSControl, TSRule
 
 def rule_1_out(input):
     return 0.6 + (
@@ -117,61 +117,61 @@ def rule_16_out(input):
 
 
 ts_epcu = TSControl([
-    Rule([
+    TSRule([
         ( "complexity", low_complexity_f_set ), ( "duration", short_term_f_set ), ( "tool_exp", high_t_experience_f_set ),
         ( "risk", low_risk_f_set ), ( "lead_exp", high_l_experience_f_set ), ( "motivation", high_motivation_f_set ),
         ( "size", low_size_f_set )
     ], rule_1_out),
-    Rule([
+    TSRule([
         ( "complexity", moderate_complexity_f_set ), ( "tool_exp", high_t_experience_f_set ),
         ( "risk", low_risk_f_set ), ( "lead_exp", high_l_experience_f_set )
     ], rule_2_out),
-    Rule([
+    TSRule([
         ( "complexity", high_complexity_f_set ), ( "tool_exp", high_t_experience_f_set ),
         ( "motivation", high_motivation_f_set ), ( "lead_exp", high_l_experience_f_set ),
     ], rule_3_out),
-    Rule([
+    TSRule([
         ( "risk", high_risk_f_set ), ( "complexity", high_complexity_f_set ),
         ( "tool_exp", low_t_experience_f_set )
     ], rule_4_out),
-    Rule([
+    TSRule([
         ( "lead_exp", low_t_experience_f_set ), ( "complexity", high_complexity_f_set ),
         ( "motivation", low_motivation_f_set )
     ], rule_5_out),
-    Rule([
+    TSRule([
         ( "duration", long_term_f_set ), ( "risk", low_risk_f_set ),
         ( "motivation", moderate_complexity_f_set )
     ], rule_6_out),
-    Rule([
+    TSRule([
         ( "complexity", low_size_f_set ), ( "complexity", moderate_complexity_f_set ),
         ( "motivation", moderate_complexity_f_set )
     ], rule_7_out),
-    Rule([
+    TSRule([
         ( "size", moderate_size_f_set ), ( "lead_exp", moderate_l_experience_f_set ),
         ( "tool_exp", high_t_experience_f_set )
     ], rule_8_out),
-    Rule([
+    TSRule([
         ( "duration", moderate_size_f_set ), ( "risk", high_risk_f_set ),
     ], rule_9_out),
-    Rule([
+    TSRule([
         ( "tool_exp", low_t_experience_f_set ), ( "lead_exp", low_l_experience_f_set ),
     ], rule_10_out),
-    Rule([
+    TSRule([
         ( "risk", moderate_risk_f_set ), ( "motivation", high_motivation_f_set ),
     ], rule_11_out),
-    Rule([
+    TSRule([
         ( "risk", moderate_risk_f_set ), ( "motivation", high_motivation_f_set ),
     ], rule_12_out),
-    Rule([
+    TSRule([
         ( "risk", moderate_risk_f_set ), ( "motivation", high_motivation_f_set ),
     ], rule_13_out),
-    Rule([
+    TSRule([
         ( "complexity", high_complexity_f_set ), ( "lead_exp", moderate_complexity_f_set ),
     ], rule_14_out),
-    Rule([
+    TSRule([
         ( "complexity", moderate_complexity_f_set ), ( "motivation", low_motivation_f_set ),
     ], rule_15_out),
-    Rule([
+    TSRule([
         ( "duration", short_term_f_set ), ( "risk", high_risk_f_set ),
     ], rule_16_out),
 ])

@@ -7,5 +7,6 @@
 ::: pyPRUF.config
 ::: pyPRUF.fset
 ::: pyPRUF.fuzzy_function
+::: pyPRUF.ts_rule
 ::: pyPRUF.ts_control
 ::: pyPRUF.utils

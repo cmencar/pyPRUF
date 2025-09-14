@@ -20,7 +20,7 @@
 
 from numpy.ma.core import arange
 
-from pyPRUF import FSet, TSControl, Rule
+from pyPRUF import FSet, TSControl, TSRule
 from pyPRUF import trap_mf, tri_mf
 
 negative_f_set = FSet(mu=lambda x: trap_mf(x, -5, -5, -1, 0), index=arange(-5, 0, 0.25))
@@ -43,11 +43,11 @@ def rule_five(control_input):
     return -2 * control_input["e"] - control_input["de"] + 0.1
 
 controller = TSControl([
-    Rule([ ("e", negative_f_set), ("de", negative_f_set) ], rule_one),
-    Rule([ ("e", zero_f_set), ("de", zero_f_set) ], rule_two),
-    Rule([ ("e", positive_f_set), ("de", positive_f_set) ], rule_three),
-    Rule([ ("e", zero_f_set), ("de", negative_f_set) ], rule_four),
-    Rule([ ("e", positive_f_set), ("de", negative_f_set) ], rule_five),
+    TSRule([("e", negative_f_set), ("de", negative_f_set)], rule_one),
+    TSRule([("e", zero_f_set), ("de", zero_f_set)], rule_two),
+    TSRule([("e", positive_f_set), ("de", positive_f_set)], rule_three),
+    TSRule([("e", zero_f_set), ("de", negative_f_set)], rule_four),
+    TSRule([("e", positive_f_set), ("de", negative_f_set)], rule_five),
 ])
 
 e_prev = 0.0

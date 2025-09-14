@@ -164,3 +164,14 @@ class TestFSet(unittest.TestCase):
 
         self.assertEqual(fuzzy_list[0][0], 1)
         self.assertEqual(fuzzy_list[0][1], 0.8)
+
+    def test_equals_identical_sets(self):
+        f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+        f_set_b = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
+
+        f_set_c = FSet(mu=np.array([0.8, 1, 2]), index=np.array([1, 2, 3]), default_value=0.2)
+        f_set_d = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.3)
+
+        self.assertTrue(f_set_a.equals(f_set_b))
+        self.assertFalse(f_set_a.equals(f_set_c))
+        self.assertFalse(f_set_a.equals(f_set_d))

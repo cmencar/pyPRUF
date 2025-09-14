@@ -1,7 +1,7 @@
 import numpy as np
 
 from pyPRUF import FSet, trap_mf, tri_mf
-from pyPRUF import TSControl, Rule
+from pyPRUF import TSControl, TSRule
 
 bg_negative_fs = FSet(
     mu=lambda x: trap_mf(x, -10, -10, -7.5, -5),
@@ -47,11 +47,11 @@ def rule_5_out(input_c):
     return out_temp(0, -2, -5, input_c["ee"], input_c["e"])
 
 ts_control = TSControl([
-    Rule( [ ("e", bg_negative_fs), ("ee", bg_negative_fs) ], rule_1_out ),
-    Rule( [ ("e", sm_negative_fs), ("ee", zero_fs) ], rule_2_out ),
-    Rule( [ ("e", zero_fs), ("ee", zero_fs) ], rule_3_out ),
-    Rule( [ ("e", sm_positive_fs), ("ee", zero_fs) ], rule_4_out ),
-    Rule( [ ("e", bg_positive_fs), ("ee", bg_positive_fs) ], rule_5_out ),
+    TSRule([("e", bg_negative_fs), ("ee", bg_negative_fs)], rule_1_out),
+    TSRule([("e", sm_negative_fs), ("ee", zero_fs)], rule_2_out),
+    TSRule([("e", zero_fs), ("ee", zero_fs)], rule_3_out),
+    TSRule([("e", sm_positive_fs), ("ee", zero_fs)], rule_4_out),
+    TSRule([("e", bg_positive_fs), ("ee", bg_positive_fs)], rule_5_out),
 ])
 
 res = ts_control.inference({
