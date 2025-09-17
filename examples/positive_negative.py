@@ -1,15 +1,10 @@
-import pandas as pd
-from pyPRUF import FSet
+import time
 
-ps_df = pd.read_csv('data/direction/po_fuzzy.csv', sep=";", index_col="Nome")
-ps_df_unique = ps_df["Valore"].loc[~ps_df["Valore"].index.duplicated(keep="first")]
+from examples.epcu_fuzzy import get_f_set_from_csv
 
-ne_df = pd.read_csv('data/direction/ne_fuzzy.csv', sep=";", index_col="Nome")
-ne_df_unique = ne_df["Valore"].loc[~ne_df["Valore"].index.duplicated(keep="first")]
 
-ng_df = pd.read_csv('data/direction/ng_fuzzy.csv', sep=";", index_col="Nome")
-ng_df_unique = ng_df["Valore"].loc[~ng_df["Valore"].index.duplicated(keep="first")]
-
-f_set_ps = FSet(mu=ps_df_unique, name="Positive terms")
-f_set_ne = FSet(mu=ne_df_unique, name="Positive terms")
-f_set_ng = FSet(mu=ng_df_unique, name="Positive terms")
+start_time = time.time()
+f_set_ps = get_f_set_from_csv("data/words/po_fuzzy.csv", "Positive terms", sep=";")
+print("--- %s seconds ---" % (time.time() - start_time))
+f_set_ne = get_f_set_from_csv("data/words/ne_fuzzy.csv", "Neutral terms", sep=";")
+f_set_ng = get_f_set_from_csv("data/words/ng_fuzzy.csv", "Negative terms", sep=";")

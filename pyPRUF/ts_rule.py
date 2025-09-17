@@ -14,7 +14,7 @@ class TSRule:
             self,
             rule_items: List[Tuple[str, FSet]] = (),
             rule_output: Callable[[dict], Number] = None
-    ):
+    ) -> "TSRule":
         """
         Initiate a single TSRule
         Parameters
@@ -58,7 +58,7 @@ class TSRule:
             self,
             control_input: dict = None,
             mode: Literal["prod", "min"] = "prod"
-    ):
+    ) -> Number:
         """
         Get the firing strength of the rule based off an input. It is possible to calculate the firing strength wth different methods
 

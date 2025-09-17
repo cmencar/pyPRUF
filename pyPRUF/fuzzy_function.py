@@ -154,7 +154,7 @@ def bell_mf(
     """
     return math.exp((-1 * pow(x - m, 2)) / pow(s, 2))
 
-def gauss_mf(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
+def gauss_mf(x: float = 0, m: float = 1, sigma: float = 1) -> float:
     """
     Calculates the value of the normalized Gaussian function.
 
@@ -162,7 +162,7 @@ def gauss_mf(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
     ----------
     x: float
         The input value for which the Gaussian is computed. Default is 0.
-    mu: float
+    m: float
         The mean (center) of the distribution. Default is 1.
     sigma: float
         The standard deviation (spread) of the distribution. Default is 1.
@@ -179,15 +179,15 @@ def gauss_mf(x: float = 0, mu: float = 1, sigma: float = 1) -> float:
 
     Examples
     --------
-    >>> gauss_mf(x=1, mu=1, sigma=1)
+    >>> gauss_mf(x=1, m=1, sigma=1)
     0.3989422804014337
 
-    >>> gauss_mf(x=0, mu=0, sigma=1)
+    >>> gauss_mf(x=0, m=0, sigma=1)
     0.3989422804014337
 
-    >>> gauss_mf(x=2, mu=1, sigma=1)
+    >>> gauss_mf(x=2, m=1, sigma=1)
     0.24197072451914337
     """
     if sigma == 0:
         raise ValueError("sigma must be non-zero")
-    return (1 / (sigma * math.sqrt(2 * math.pi))) * math.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
+    return (1 / (sigma * math.sqrt(2 * math.pi))) * math.exp(-((x - m) ** 2) / (2 * sigma ** 2))

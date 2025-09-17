@@ -160,9 +160,8 @@ class FSet(Series):
         if isinstance(mu, dict):
             index_list = mu.keys()
         elif isinstance(mu, Series):
-            if is_list_not_unique(mu.index.array):
+            if not mu.index.is_unique:
                 raise Exception("Index must contain unique values")
-            index_list = mu.index.array
         elif isinstance(mu, bool) and index is None:
             index_list = []
         elif isinstance(index, (list, np.ndarray)) and is_list_not_unique(index):
@@ -170,29 +169,34 @@ class FSet(Series):
         elif isinstance(index, Index) and (not index.is_unique):
             raise ValueError("Index must contain unique values")
 
-        data_list = None
-        if callable(mu):
-            data_list = []
-            for el in index_list:
-                data_list.append(mu(el))
-        elif isinstance(mu, dict):
-            data_list = list(mu.values())
-        elif isinstance(mu, Series):
-            data_list = mu.to_numpy()
-        elif isinstance(mu, dict):
-            data_list = list(mu.values())
-        elif isinstance(mu, (list, np.ndarray)):
-            data_list = mu
-        elif isinstance(mu, bool):
-            data_list = list(int(mu) for _ in index_list)
+        if isinstance(mu, Series):
+            if not mu.between(0, 1).all():
+                raise ValueError("All mu values must be between 0 and 1")
 
-        if is_list_out_of_range(data_list, 0, 1):
-            raise ValueError("All mu values must be between 0 and 1")
+            super().__init__(data=mu)
+        else:
+            data_list = None
 
-        z  = zip(index_list, data_list[:len(index_list)])
-        indexes, values = zip(*((x, y) for x, y in z)) if len(index_list) > 0 else [[], []]
+            if callable(mu):
+                data_list = []
+                for el in index_list:
+                    data_list.append(mu(el))
+            elif isinstance(mu, dict):
+                data_list = list(mu.values())
+            elif isinstance(mu, dict):
+                data_list = list(mu.values())
+            elif isinstance(mu, (list, np.ndarray)):
+                data_list = mu
+            elif isinstance(mu, bool):
+                data_list = list(int(mu) for _ in index_list)
 
-        super().__init__(data=values, index=indexes, name=name)
+            if is_list_out_of_range(data_list, 0, 1):
+                raise ValueError("All mu values must be between 0 and 1")
+
+            z  = zip(index_list, data_list[:len(index_list)])
+            indexes, values = zip(*((x, y) for x, y in z)) if len(index_list) > 0 else [[], []]
+
+            super().__init__(data=values, index=indexes, name=name)
 
         if isinstance(mu, bool):
             self.default_value = int(mu)
@@ -470,7 +474,16 @@ class FSet(Series):
         >>> f_set_a.equals(f_set_c)
         False
         """
-        return super().equals(other) and self.default_value == other.default_value
+        if not isinstance(other, type(self)):
+            return False
+
+        df = pd.concat([self, other], axis=1)
+        df.columns = ["a", "b"]
+
+        return self.default_value == other.default_value and (
+                (df["a"]  == df["b"]) | (df["a"] == other.default_value) | (df["b"] == self.default_value)
+        ).all()
+
 
     def to_numpy(
             self,

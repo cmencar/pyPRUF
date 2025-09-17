@@ -169,9 +169,13 @@ class TestFSet(unittest.TestCase):
         f_set_a = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
         f_set_b = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.2)
 
-        f_set_c = FSet(mu=np.array([0.8, 1, 2]), index=np.array([1, 2, 3]), default_value=0.2)
+        f_set_c = FSet(mu=np.array([0.8, 1, 0.1]), index=np.array([1, 2, 4]), default_value=0.2)
         f_set_d = FSet(mu=np.array([0.8, 1, 1]), index=np.array([1, 2, 3]), default_value=0.3)
+
+        f_set_e = FSet(mu=np.array([0.8]), index=np.array([1]), default_value=0.3)
+        f_set_f = FSet(mu=np.array([0.8, 0.4]), index=np.array([1, 2]), default_value=0.3)
 
         self.assertTrue(f_set_a.equals(f_set_b))
         self.assertFalse(f_set_a.equals(f_set_c))
         self.assertFalse(f_set_a.equals(f_set_d))
+        self.assertTrue(f_set_e.equals(f_set_f))
