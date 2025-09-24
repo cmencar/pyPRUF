@@ -104,7 +104,7 @@ def tri_mf(
     >>> tri_mf(1.5, 1, 2, 3)
     0.5
     """
-    return tri_mf(x, a, b, b, c)
+    return trap_mf(x, a, b, b, c)
 
 
 def bell_mf(

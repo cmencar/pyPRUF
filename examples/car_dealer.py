@@ -1,17 +1,20 @@
+from typing import List, Tuple, Literal
+
 import numpy as np
 
+from examples.data.car.car import cars
 from pyPRUF import FSet, trap_mf
 
 # price
 fuzzy_low_price = FSet(
-    mu=lambda x: trap_mf(x, 100, 100, 3000, 5000),
-    index=np.arange(100, 5000, 100),
+    mu=lambda x: trap_mf(x, 0, 0, 3000, 5000),
+    index=np.arange(0, 5000, 50),
     name="Low price"
 )
 
 fuzzy_medium_price = FSet(
     mu=lambda x: trap_mf(x, 3500, 4000, 10000, 12000),
-    index=np.arange(3500, 8000, 100),
+    index=np.arange(3500, 12000, 100),
     name="Medium price"
 )
 
@@ -35,7 +38,7 @@ fuzzy_medium_maintenance = FSet(
 )
 
 fuzzy_high_maintenance = FSet(
-    mu=lambda x: trap_mf(x, 800, 900, 10000, 10000),
+    mu=lambda x: trap_mf(x, 800, 900, 1000, 10000),
     index=np.arange(800, 10000, 50),
     name="High maintenance price"
 )
@@ -61,20 +64,20 @@ fuzzy_high_mileage = FSet(
 
 # Age
 fuzzy_old_age = FSet(
-    mu=lambda x: trap_mf(x, 10, 14, 50, 50),
-    index=np.arange(11, 50, 1),
+    mu=lambda x: trap_mf(x, 1980, 1980, 2000, 2005),
+    index=np.arange(1980, 2005, 1),
     name="Old car"
 )
 
 fuzzy_mid_age = FSet(
-    mu=lambda x: trap_mf(x, 5, 6, 10, 12),
-    index=np.arange(5, 12, 1),
+    mu=lambda x: trap_mf(x, 2002, 2008, 2015, 2020),
+    index=np.arange(2002, 2020, 1),
     name="Mid Age car"
 )
 
 fuzzy_recent_age= FSet(
-    mu=lambda x: trap_mf(x, 0, 0, 5, 6),
-    index=np.arange(0, 6, 1),
+    mu=lambda x: trap_mf(x, 2019, 2022, 2030, 2030),
+    index=np.arange(2019, 2030, 1),
     name="Recent car"
 )
 
@@ -190,3 +193,74 @@ fuzzy_high_documentation = FSet(
     index=np.arange(11, 40, 1),
     name="High documentation"
 )
+
+#power
+fuzzy_low_power = FSet(
+    mu=lambda x: trap_mf(x, 0, 0, 50, 70),
+    index=np.arange(0, 71, 1),
+    name="Low engine power"
+)
+
+fuzzy_medium_power = FSet(
+    mu=lambda x: trap_mf(x, 60, 80, 130, 150),
+    index=np.arange(60, 151, 1),
+    name="Medium engine power"
+)
+
+fuzzy_high_power = FSet(
+    mu=lambda x: trap_mf(x, 140, 160, 400, 400),
+    index=np.arange(140, 401, 1),
+    name="High engine power"
+)
+
+def describe_car(car):
+    print(car)
+    price = max([fuzzy_low_price, fuzzy_medium_price, fuzzy_high_price], key=lambda x: x.mu(car["price"])).name
+    power = max([fuzzy_low_power, fuzzy_medium_power, fuzzy_high_power], key=lambda x: x.mu(car["power"])).name
+    mileage = max([fuzzy_low_mileage, fuzzy_medium_mileage, fuzzy_high_mileage], key=lambda x: x.mu(car["mileage"])).name
+    consumption = max([fuzzy_efficient_consumption, fuzzy_medium_consumption, fuzzy_inefficient_consumption, fuzzy_very_efficient_consumption], key=lambda x: x.mu(car["consumption"])).name
+    age = max([fuzzy_old_age, fuzzy_mid_age, fuzzy_recent_age], key=lambda x: x.mu(car["year"])).name
+    displacement = max([fuzzy_small_displacement, fuzzy_large_displacement, fuzzy_lower_medium_displacement, fuzzy_upper_medium_displacement], key=lambda x: x.mu(car["displacement"])).name
+    documentation = max([fuzzy_low_documentation, fuzzy_medium_documentation, fuzzy_high_documentation], key=lambda x: x.mu(car["n_pictures"])).name
+    scratches = max([fuzzy_few_scratch, fuzzy_several_scratch, fuzzy_many_scratch, fuzzy_very_few_scratch], key=lambda x: x.mu(car["n_scratches"])).name
+    owners = max([fuzzy_low_usage, fuzzy_medium_usage, fuzzy_high_usage], key=lambda x: x.mu(car["n_owners"])).name
+    maintenance = max([fuzzy_low_maintenance, fuzzy_medium_maintenance, fuzzy_high_maintenance], key=lambda x: x.mu(car["maintenance"])).name
+
+    print(
+        f"Price: {price}\n"
+        f"Power: {power}\n"
+        f"Consumption: {consumption}\n"
+        f"Mileage: {mileage}\n"
+        f"Age: {age}\n"
+        f"Displacement: {displacement}\n"
+        f"Maintenance: {maintenance}\n"
+        f"Scratches: {scratches}\n"
+        f"Owners: {owners}\n"
+        f"Documentation: {documentation}"
+    )
+
+describe_car(cars.iloc[0])
+
+def sort_by_fuzzy(sorts: List[Tuple[FSet, str, Literal["asc", "desc"]]], n: int = 50):
+    new_columns = list(index for index, _sort in enumerate(sorts))
+
+    temp_cars = cars.copy()
+    for index, sort in enumerate(sorts):
+        temp_cars[new_columns[index]] = temp_cars.apply(
+            lambda row: sort[0].mu(row[sort[1]]), axis=1
+        )
+
+    return temp_cars.sort_values(
+        by=new_columns,
+        ascending=list( sort[2] == "asc" for sort in sorts ),
+    ).head(n=n).drop(columns=new_columns)
+
+res = sort_by_fuzzy(
+    sorts=[
+        (fuzzy_low_price, "price", "desc"),
+        (fuzzy_high_mileage, "mileage", "desc")
+    ],
+    n=10
+)
+
+print(res[["name", "price", "mileage"]])

@@ -98,7 +98,7 @@ def rule_11_out(input):
 
 def rule_12_out(input):
     return 1.2 + (
-        0.3 * medium_foundation_cond_f_set.mu(input["foundations"])
+        0.3 * medium_foundation_cond_f_set.mu(input["foundation"])
         + 0.4 * moderate_external_degradation_f_set.mu(input["external_deg"])
         + 0.35 * moderate_traffic_f_set.mu(input["traffic"])
         - 0.25 * moderate_maintenance_eff_f_set.mu(input["maintenance"])
@@ -187,3 +187,19 @@ ts_control = TSControl([
         ("foundation", good_foundation_cond_f_set)
     ], rule_15_out),
 ])
+
+res = ts_control.inference({
+    "foundation": "Soddisfacenti",
+    "network_importance": "Rilevante",
+    "doc_quality": "Accurata",
+    "env_peculiarity": "Stabile",
+    "surroundings": "Normali",
+    "external_deg": "Media",
+    "seismic": "Intermedia",
+    "maintenance": "Corretta",
+    "traffic": "Regolare",
+    "static_load": "Equilibrati",
+    "changes": "Ridotte"
+})
+
+print(res)
