@@ -173,7 +173,7 @@ class FSet(Series):
             if not mu.between(0, 1).all():
                 raise ValueError("All mu values must be between 0 and 1")
 
-            super().__init__(data=mu)
+            super().__init__(data=mu, name=name)
         else:
             data_list = None
 
